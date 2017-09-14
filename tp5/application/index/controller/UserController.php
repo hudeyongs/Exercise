@@ -27,6 +27,10 @@ class UserController
 		}
 	}
 
+	/**
+	 * 确认  profile 中有数据，且是和 user 表中的数据关联对应的，否则警惕导致的 "Trying to get property of non-object" 错误
+	 * @param $id
+	 */
 	public function read($id)
 	{
 		$user = UserModel::get($id, 'profile');
