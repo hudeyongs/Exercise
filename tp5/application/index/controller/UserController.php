@@ -22,13 +22,10 @@ class UserController
 	 */
 	public function read()
 	{
-		// 查询所有写过书的作者
-		$user = UserModel::has('books')->select();
-		// 查询写过三本书以上的作者
-		$user = UserModel::has('books', '>=', 3)->select();
-		// 查询写过 ThinkPHP5快速入门的作者
-		$user = UserModel::hasWhere('books', ['title' => 'ThinkPHP5快速入门'])->select();
+		$user = UserModel::get(2, 'roles');
+		dump($user->roles);
 	}
+
 
 
 	public function update($id)
@@ -40,17 +37,12 @@ class UserController
 	}
 
 
-	public function delete($id)
+	public function delete()
 	{
-		$user = UserModel::get($id);
-		if($user->delete())
-		{
-			// 删除关联数据
-			$user->profile->delete();
-			return '用户[ ' . $user->name . ' ]删除成功';
-		} else {
-			return $user->getError();
-		}
+		$user = UserMOdel::getByNickname('张三');
+		$role = Role::getByName('leader');
+		$user->roles()->detach($role, true);
+		return '用户角色删除成功';
 	}
 
 	public function addBook()
