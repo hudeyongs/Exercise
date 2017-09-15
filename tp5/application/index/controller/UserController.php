@@ -10,6 +10,8 @@ class UserController extends Controller
 
 	public function index()
 	{
+		// debug
+		trace(['1', '2']);
 		$list = UserModel::all();
 		$this->assign('list', $list);
 		$this->assign('count', count($list));
