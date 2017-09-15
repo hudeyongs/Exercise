@@ -1,9 +1,8 @@
 <?php
 namespace app\index\controller;
 
-use app\index\model\Profile;
 use app\index\model\User as UserModel;
-use app\index\model\Role;
+use think\Controller;
 
 class UserController
 {
@@ -20,10 +19,10 @@ class UserController
 	 * 确认  profile 中有数据，且是和 user 表中的数据关联对应的，否则警惕导致的 "Trying to get property of non-object" 错误
 	 * @param $id
 	 */
-	public function read()
+	public function read($id = '')
 	{
-		$user = UserModel::get(2, 'roles');
-		dump($user->roles);
+		$user = UserModel::get($id);
+		return view('read', ['user' => $user]);
 	}
 
 
