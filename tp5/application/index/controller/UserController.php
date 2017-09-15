@@ -4,8 +4,73 @@ namespace app\index\controller;
 use app\index\model\User as UserModel;
 use think\Controller;
 
-class UserController
+class UserController extends Controller
 {
+
+
+	public function index()
+	{
+		$list = UserModel::all();
+		$this->assign('list', $list);
+		$this->assign('count', count($list));
+		// 关闭布局
+		$this->view->engine->layout(false);
+		$content = <<<EOT
+		<style>            
+body{
+	color: #333;
+	font: 16px Verdana, "Helvetica Neue", helvetica, Arial, 'Microsoft YaHei', sans-serif;
+	margin: 0px;
+	padding: 20px;
+}
+
+a{
+	color: #868686;
+	cursor: pointer;
+}
+a:hover{
+	text-decoration: underline;
+}
+h2{
+	color: #4288ce;
+	font-weight: 400;
+	padding: 6px 0;
+	margin: 6px 0 0;
+	font-size: 28px;
+	border-bottom: 1px solid #eee;
+}
+div{
+margin:8px;
+}
+.info{
+	padding: 12px 0;
+	border-bottom: 1px solid #eee;
+}
+
+.copyright{
+	margin-top: 24px;
+	padding: 12px 0;
+  border-top: 1px solid #eee;
+}
+</style>
+<h2>用户列表（{\$count}）</h2>
+<div>
+{volist name="list" id="user"  }
+ID：{\$user.id}<br/>
+昵称：{\$user.nickname}<br/>
+------------------------<br/>
+{/volist}
+</div>
+<div class="copyright">
+	<a title="官方网站" href="http://www.thinkphp.cn">ThinkPHP</a> 
+	<span>V5</span> 
+	<span>{ 十年磨一剑-为API开发设计的高性能框架 }</span>
+</div>
+
+EOT;
+		return $this->display($content);
+
+	}
 // 关联新增数据
 	public function add()
 	{
@@ -22,7 +87,7 @@ class UserController
 	public function read($id = '')
 	{
 		$user = UserModel::get($id);
-		return view('read', ['user' => $user]);
+		return view('', ['user' => $user], ['__PUBLIC__' => '/static']);
 	}
 
 
