@@ -17,4 +17,15 @@ class User extends Model
 		// 用户HAS ONE档案关联
 		return $this->hasOne('Profile');
 	}
+
+	public function books()
+	{
+		return $this->hasMany('Book');
+	}
+
+	public function roles()
+	{
+		return $this->belongsToMany('Role', 'access');
+	}
+
 }
